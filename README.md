@@ -29,24 +29,26 @@ proc ss {script} {
     set comment [stringRange $script {*}$commentRange]
     set command [stringRange $script {*}$commandRange]
     if {$command eq ""} { break }
-    lappend result $command
+    lappend result [list $comment $command]
   }
   return $result
 }
 
-ss {
+set parsed [ss {
+  # set foo first
   set foo [list \
     one \
     two \
     three
   ]
+  # set bar and puts the result
   set bar $foo;puts $bar
   if {$foo eq $bar} {
     puts "$foo is $bar"
     ::http::geturl http://www.google.com \
       -command [list myProc]
   }
-}
+}]
 ```
 
 ### Useful Links & References
